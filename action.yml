@@ -21,8 +21,8 @@ runs:
   using: 'composite'
   steps:
     - name: Setup dependencies
-      run: bash ${{ github.action_path }}/scripts/setup-dependencies.bash ${{ inputs.ros2-distro }}
+      run: bash ${GITHUB_ACTION_PATH}/scripts/setup-dependencies.bash ${{ inputs.ros2-distro }}
       shell: bash
     - name: Build Debian packages
-      run: bash ${{ github.action_path }}/scripts/build-debian.bash ${{ inputs.ros2-distro }} ${{ inputs.output-dir }} ${{ inputs.version }}
+      run: bash ${GITHUB_ACTION_PATH}/scripts/build-debian.bash ${{ inputs.ros2-distro }} ${{ inputs.output-dir }} ${{ inputs.version }}
       shell: bash
