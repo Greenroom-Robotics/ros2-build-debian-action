@@ -1,6 +1,6 @@
 name: 'ROS 2 Build Debian Package'
 description: 'Build Debian packages from a ROS 2 project'
-author: 'ICHIRO ITS'
+author: 'ICHIRO ITS, Greenroom Robotics'
 branding:
   icon: 'package'
   color: 'gray-dark'
@@ -8,7 +8,15 @@ inputs:
   ros2-distro:
     description: 'The ROS 2 distribution to be used.'
     required: false
-    default: 'foxy'
+    default: 'galactic'
+  overlay-index:
+    description: 'The ROS 2 distribution overlay index to be used.'
+    required: false
+    default: ''
+  bloom-generate-extra-args:
+    description: 'Extra args to be passed to bloom-generate.'
+    required: false
+    default: ''
   output-dir:
     description: 'The output directory of build results.'
     required: false
@@ -17,12 +25,25 @@ inputs:
     description: 'The version / debian increment.'
     required: false
     default: 'false'
+  token:
+    description: ''
+    required: false
+    default: ''
+
 runs:
   using: 'composite'
   steps:
     - name: Setup dependencies
-      run: bash ${GITHUB_ACTION_PATH}/scripts/setup-dependencies.bash ${{ inputs.ros2-distro }}
+      run: bash ${GITHUB_ACTION_PATH}/scripts/setup-dependencies.bash
       shell: bash
+      env:
+        GHCR_PAT: ${{ inputs.token }}
+        ROSDISTRO_OVERLAY_INDEX_URL: ${{ inputs.overlay-index }}
+        ROS2_DISTRO: ${{ inputs.ros2-distro }}
     - name: Build Debian packages
       run: bash ${GITHUB_ACTION_PATH}/scripts/build-debian.bash ${{ inputs.ros2-distro }} ${{ inputs.output-dir }} ${{ inputs.version }}
       shell: bash
+      env:
+        GHCR_PAT: ${{ inputs.token }}
+        ROSDISTRO_OVERLAY_INDEX_URL: ${{ inputs.overlay-index }}
+        BLOOM_GENERATE_EXTRA_ARGS: ${{ inputs.bloom-generate-extra-args }}
