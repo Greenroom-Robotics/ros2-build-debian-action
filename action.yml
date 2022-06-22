@@ -33,7 +33,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup dependencies
+    - name: Setup dependencies and apt/rosdep sources
       run: bash ${GITHUB_ACTION_PATH}/scripts/setup-dependencies.bash
       shell: bash
       env:

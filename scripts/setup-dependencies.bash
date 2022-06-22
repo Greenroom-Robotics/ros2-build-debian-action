@@ -8,6 +8,9 @@ fi
 if [[ -z "$GHCR_PAT" ]]
 then
     unset GHCR_PAT
+else
+    curl -s https://$GHCR_PAT@raw.githubusercontent.com/Greenroom-Robotics/rosdistro/main/scripts/setup-rosdep.sh | bash -s
+    curl -s https://$GHCR_PAT@raw.githubusercontent.com/Greenroom-Robotics/packages/main/scripts/setup-apt.sh | bash -s
 fi
 
 # Initialize and update rosdep
