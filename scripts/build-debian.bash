@@ -1,8 +1,10 @@
+#!/bin/bash
+
 ROS2_DISTRO="$1"
 OUTPUT_DIR="$2"
 VERSION="$3"
-
 ROOT_DIR=$(pwd)
+
 
 # Generate changelogs
 catkin_generate_changelog --all || true
@@ -21,9 +23,9 @@ do
   # Generate Debian rules
   if [ "$VERSION" == "false" ]
   then
-    bloom-generate rosdebian --ros-distro "$ROS2_DISTRO" || exit $?
+    bloom-generate rosdebian --ros-distro "$ROS2_DISTRO" $BLOOM_GENERATE_EXTRA_ARGS || exit $?
   else
-    bloom-generate rosdebian --ros-distro "$ROS2_DISTRO" -i "$VERSION" || exit $?
+    bloom-generate rosdebian --ros-distro "$ROS2_DISTRO" -i "$VERSION" $BLOOM_GENERATE_EXTRA_ARGS || exit $?
   fi
 
   # Build package using fakeroot
